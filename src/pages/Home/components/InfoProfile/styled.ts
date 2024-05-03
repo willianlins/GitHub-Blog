@@ -23,7 +23,7 @@ export const ContainerInfo = styled.div`
     display: flex;
     gap: 2rem;
     color: ${(props) => props.theme.COLORS['base-subtitle']};
-
+    margin-top: 1rem;
     svg {
       color: ${(props) => props.theme.COLORS['base-label']};
       margin-right: 0.625rem;
@@ -35,7 +35,7 @@ export const InfoUserContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `
 
 export const ContentHeader = styled.header`
@@ -53,6 +53,10 @@ export const ContentHeader = styled.header`
 
     svg {
       margin-left: 0.313rem;
+    }
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 `
