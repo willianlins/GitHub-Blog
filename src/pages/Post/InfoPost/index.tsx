@@ -8,14 +8,28 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ContainerInfo, ContentHeader, InfoLinks } from './styled'
 
-export function InfoPost() {
+interface InfoProps {
+  title: string
+  urlPost: string
+  userGIt: string
+  createdAt: string
+  comments: number
+}
+
+export function InfoPost({
+  title,
+  urlPost,
+  comments,
+  userGIt,
+  createdAt,
+}: InfoProps) {
   return (
     <ContainerInfo>
       <InfoLinks>
-        <a href="#">
+        <a href="http://localhost:5173/">
           <FontAwesomeIcon icon={faChevronLeft} /> VOLTAR
         </a>
-        <a href="#">
+        <a href={}>
           VER NO GITHUB <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
         </a>
       </InfoLinks>

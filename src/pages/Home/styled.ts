@@ -5,7 +5,7 @@ export const ContainerMain = styled.main`
   margin-bottom: 8rem;
 `
 
-export const ContainerSearch = styled.div`
+export const ContainerSearch = styled.form`
   display: flex;
   flex-direction: column;
   margin: 4rem 0 3rem;

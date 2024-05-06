@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { InfoProfile } from './components/InfoProfile'
 import {
   ContainerPosts,
@@ -6,123 +7,65 @@ import {
   ContentPostUser,
   ContainerMain,
 } from './styled'
+import { GitHubUserContext } from '../../contexts/GitHubUserContext'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const searchInputSchema = z.object({
+  query: z.string(),
+})
+
+type SearchFormInput = z.infer<typeof searchInputSchema>
 
 export function Home() {
+  const { posts, getPosts } = useContext(GitHubUserContext)
+  const { register, handleSubmit } = useForm<SearchFormInput>({
+    resolver: zodResolver(searchInputSchema),
+    defaultValues: {
+      query: '',
+    },
+  })
+
+  function handleSearchPost(data: SearchFormInput) {
+    getPosts(data.query)
+  }
+
   return (
     <ContainerMain>
       <InfoProfile />
-      <ContainerSearch>
+      <ContainerSearch onSubmit={handleSubmit(handleSearchPost)}>
         <div>
           <h2>Publicações</h2>
-          <span>6 publicações</span>
+          <span>{posts.length} publicações</span>
         </div>
-        <input type="text" placeholder="Buscar Conteúdo" />
+        <input
+          type="text"
+          placeholder="Buscar Conteúdo"
+          {...register('query')}
+        />
       </ContainerSearch>
       <ContainerPosts>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
-        <a href="">
-          <ContentPostUser>
-            <ContentHeader>
-              <h2>JavaScript data types and data structures</h2>
-              <span> Há 1 dia </span>
-            </ContentHeader>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in...
-            </p>
-          </ContentPostUser>
-        </a>
+        {posts.map((post) => {
+          return (
+            <a href={`http://localhost:5173/post/${post.id}`} key={post.id}>
+              <ContentPostUser>
+                <ContentHeader>
+                  <h2>{post.title}</h2>
+                  <span>
+                    {formatDistanceToNow(new Date(post.created_at), {
+                      addSuffix: true,
+                      locale: ptBR,
+                    })}
+                  </span>
+                </ContentHeader>
+                <p>{post.body.substring(0, 180)}...</p>
+              </ContentPostUser>
+            </a>
+          )
+        })}
       </ContainerPosts>
     </ContainerMain>
   )

@@ -1,7 +1,13 @@
+import { useParams } from 'react-router-dom'
 import { InfoPost } from './InfoPost'
 import { ContainerPost, ContentPost } from './styles'
+import { useContext } from 'react'
+import { GitHubUserContext } from '../../contexts/GitHubUserContext'
 
 export function Post() {
+  const { posts } = useContext(GitHubUserContext)
+  const { numberIssue } = useParams()
+
   return (
     <ContainerPost>
       <InfoPost />
