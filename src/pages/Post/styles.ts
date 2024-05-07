@@ -6,6 +6,8 @@ export const ContainerPost = styled.main`
 `
 
 export const ContentPost = styled.div`
+  text-align: justify;
+  overflow: hidden;
   padding: 2rem;
   margin-top: 1rem;
 `

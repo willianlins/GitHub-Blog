@@ -7,13 +7,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ContainerInfo, ContentHeader, InfoLinks } from './styled'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
+import { NavLink } from 'react-router-dom'
 
 interface InfoProps {
-  title: string
+  title: string | undefined
   urlPost: string
-  userGIt: string
+  userGIt: string | undefined
   createdAt: string
-  comments: number
+  comments: number | undefined
 }
 
 export function InfoPost({
@@ -26,26 +29,30 @@ export function InfoPost({
   return (
     <ContainerInfo>
       <InfoLinks>
-        <a href="http://localhost:5173/">
+        <NavLink to="/" title="voltar">
           <FontAwesomeIcon icon={faChevronLeft} /> VOLTAR
-        </a>
-        <a href={}>
+        </NavLink>
+        <NavLink to={urlPost} target="black" title="Ver no git">
           VER NO GITHUB <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-        </a>
+        </NavLink>
       </InfoLinks>
       <ContentHeader>
-        <h1>JavaScript data types and data structures</h1>
+        <h1>{title}</h1>
         <ul>
           <li>
             <FontAwesomeIcon icon={faGithub} size="sm" />
-            OhVinixus2
+            {userGIt}
           </li>
           <li>
             <FontAwesomeIcon icon={faCalendar} />
-            Há 1 dia
+            {formatDistanceToNow(new Date(createdAt), {
+              addSuffix: true,
+              locale: ptBR,
+            })}
           </li>
           <li>
-            <FontAwesomeIcon icon={faComment} />5 comentários
+            <FontAwesomeIcon icon={faComment} />
+            {comments}
           </li>
         </ul>
       </ContentHeader>

@@ -13,6 +13,7 @@ import { ptBR } from 'date-fns/locale/pt-BR'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { NavLink } from 'react-router-dom'
 
 const searchInputSchema = z.object({
   query: z.string(),
@@ -50,7 +51,7 @@ export function Home() {
       <ContainerPosts>
         {posts.map((post) => {
           return (
-            <a href={`http://localhost:5173/post/${post.id}`} key={post.id}>
+            <NavLink to={`http://localhost:5173/post/${post.id}`} key={post.id}>
               <ContentPostUser>
                 <ContentHeader>
                   <h2>{post.title}</h2>
@@ -63,7 +64,7 @@ export function Home() {
                 </ContentHeader>
                 <p>{post.body.substring(0, 180)}...</p>
               </ContentPostUser>
-            </a>
+            </NavLink>
           )
         })}
       </ContainerPosts>

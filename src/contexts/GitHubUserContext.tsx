@@ -29,6 +29,7 @@ interface Post {
   created_at: string
   comments: number
   body: string
+  html_url: string
 }
 
 interface GitHubContextType {
@@ -76,6 +77,7 @@ export function GitHubContextProvider({
         created_at: post.created_at,
         comments: post.comments,
         body: post.body,
+        html_url: post.html_url,
       })
     }
     setPost(postArrAux)
